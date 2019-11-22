@@ -14,7 +14,9 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  PermissionsAndroid,
+  Platform
 } from 'react-native';
 
 import {
@@ -25,17 +27,46 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import {NetworkInfo} from 'react-native-network-info';
-import SmartConfigP, {Cast} from 'react-native-smartconfig-p';
+import { NetworkInfo } from 'react-native-network-info';
+import SmartConfigP, { Cast } from 'react-native-smartconfig-p';
 
-class App extends React.Component{
+class App extends React.Component {
+
+  constructor(props){
+    super(props);
+    if(Platform.OS == 'android') this.permission();
+  }
+
+  permission = async() => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' +
+            'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
 
   smartConfig = () => {
     NetworkInfo.getBSSID().then(bssid => {
       console.log(bssid);
       SmartConfigP.start({
-        ssid: 'P907A',
-        password: 'iotech.vn',
+        ssid: 'WiFi Free',
+        password: '09876543210',
         bssid,
         count: 1,
         cast: 'broadcast'
@@ -47,12 +78,12 @@ class App extends React.Component{
     });
   }
 
-  render(){
-    return(
-      <SafeAreaView style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity style={{backgroundColor: 'green', height: 50, width: 200, justifyContent: 'center'}}
-        onPress={this.smartConfig}>
-          <Text style={{textAlign: 'center', color: 'white', fontSize: 20}}>
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <TouchableOpacity style={{ backgroundColor: 'green', height: 50, width: 200, justifyContent: 'center' }}
+          onPress={this.smartConfig}>
+          <Text style={{ textAlign: 'center', color: 'white', fontSize: 20 }}>
             Confirm
           </Text>
         </TouchableOpacity>

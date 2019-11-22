@@ -65,10 +65,10 @@ public class RnSmartConfigPModule extends ReactContextBaseJavaModule {
             try {
                 IEsptouchResult firstResult = result.get(0);
                 if (firstResult.isCancelled()) {
-                    promise.resolve(null);
+                    promise.reject("Timoutout or not Found");
                 }
                 if (!firstResult.isSuc()) {
-                    promise.resolve(null);
+                    promise.reject("Timoutout or not Found");
                 }
 
                 WritableArray ret = Arguments.createArray();
