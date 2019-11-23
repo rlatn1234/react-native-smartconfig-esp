@@ -2,9 +2,9 @@
 
 ## Getting started
 
-`$ npm install react-native-smartconfig-p --save`
+`$ npm install react-native-smart-config-p --save`
 `or`
-`$ yarn add react-native-smartconfig-p --save`
+`$ yarn add react-native-smart-config-p --save`
 
 ### Mostly automatic installation
 
