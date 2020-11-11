@@ -16,7 +16,7 @@ import {
   StatusBar,
   TouchableOpacity,
   PermissionsAndroid,
-  Platform
+  Platform,
 } from 'react-native';
 
 import {
@@ -27,17 +27,16 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { NetworkInfo } from 'react-native-network-info';
-import SmartConfigP, { Cast } from 'react-native-smartconfig-p';
+import {NetworkInfo} from 'react-native-network-info';
+import SmartConfigP from 'react-native-smartconfig-p';
 
 class App extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    if(Platform.OS == 'android') this.permission();
+    if (Platform.OS == 'android') this.permission();
   }
 
-  permission = async() => {
+  permission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -59,36 +58,45 @@ class App extends React.Component {
     } catch (err) {
       console.warn(err);
     }
-  }
+  };
 
   smartConfig = () => {
-    NetworkInfo.getBSSID().then(bssid => {
+    NetworkInfo.getBSSID().then((bssid) => {
       console.log(bssid);
       SmartConfigP.start({
         ssid: 'WiFi Free',
         password: '09876543210',
         bssid,
         count: 1,
-        cast: 'broadcast'
-      }).then(data => {
-        console.log(data);
-      }).catch(err => {
-        console.log(err);
-      });
+        cast: 'broadcast',
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
-  }
+  };
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity style={{ backgroundColor: 'green', height: 50, width: 200, justifyContent: 'center' }}
+      <SafeAreaView
+        style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'green',
+            height: 50,
+            width: 200,
+            justifyContent: 'center',
+          }}
           onPress={this.smartConfig}>
-          <Text style={{ textAlign: 'center', color: 'white', fontSize: 20 }}>
+          <Text style={{textAlign: 'center', color: 'white', fontSize: 20}}>
             Confirm
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
-    )
+    );
   }
 }
 
